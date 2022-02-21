@@ -1,0 +1,5 @@
+jinja2
+python-multipart
+starlette
+git+https://github.com/jockerz/Starlette-Login
+uvicorn

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<p>
+{% if request.user.is_authenticated %}
+You are logged in as {{ request.user.username }}
+{% else %}
+You are not logged in
+{% endif %}
+</p>
+{% endblock %}

@@ -1,0 +1,19 @@
+<html>
+<head><title>{% block title %}Base{% endblock %}</title><head>
+<body>
+<ul>
+  <li><a href="/">Home Page</a></li>
+  {% if request.user.is_authenticated %}
+  <li><a href="/protected">Protected Page</a></li>
+  {% if request.user.is_admin %}
+  <li><a href="/admin">Admin Page</a></li>
+  {% endif %}
+  <li><a href="/logout">Logout Page</a></li>
+  {% else %}
+  <li><a href="/login">Login Page</a></li>
+  {% endif %}
+</ul>
+<br/>
+
+{% block body %}Base{% endblock %}
+</body>
