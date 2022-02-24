@@ -14,8 +14,9 @@ class User(BaseUser):
     def check_password(self, password: str):
         return self.password == password
 
+    @property
     def is_authenticated(self) -> bool:
-        return False
+        return True
 
     @property
     def display_name(self) -> str:

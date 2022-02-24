@@ -34,7 +34,7 @@ async def login_page(request: Request):
             error = "Invalid username"
         elif user.check_password(form['password']) is True:
             # Login user - create user session
-            login_user(request, user)
+            await login_user(request, user)
             return RedirectResponse('/', status_code=302)
         else:
             error = "Invalid username password"
@@ -43,7 +43,7 @@ async def login_page(request: Request):
     )
 
 
-@login_required()
+@login_required
 async def logout_page(request: Request):
     if request.method == 'POST':
         # Logout user
@@ -55,14 +55,14 @@ async def logout_page(request: Request):
     )
 
 
-@login_required()
+@login_required
 async def protected_page(request: Request):
     return template.TemplateResponse(
         'protected.html', context={'request': request}
     )
 
 
-@login_required()
+@login_required
 async def admin_page(request: Request):
     # Authenticated user have `is_admin` property
     if not request.user.is_admin:
@@ -88,9 +88,7 @@ app = Starlette(
         Middleware(SessionMiddleware, secret_key=SECRET_KEY),
         Middleware(
             AuthenticationMiddleware,
-            backends=[
-                SessionAuthBackend(login_manager)
-            ],
+            backend=SessionAuthBackend(login_manager),
             login_manager=login_manager,
             login_route='login',
             secret_key=SECRET_KEY,
