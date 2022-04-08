@@ -96,3 +96,4 @@ app = Starlette(
         )
     ]
 )
+app.state.login_manager = login_manager
