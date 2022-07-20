@@ -27,23 +27,6 @@ LOGIN_PAGE = """
 </form>
 """
 
-REGISTER_PAGE = """
-<h4>{error}<h4>
-<form method="POST">
-<label>username <input name="username"></label>
-<label>Password <input name="password" type="password"></label>
-<label>First Name <input name="first_name"></label>
-<label>Last Name <input name="last_name"></label>
-<button type="submit">Login</button>
-</form>
-"""
-
-
-async def register_page(request: Request):
-    db = request.state.db
-    error = ''
-    return HTMLResponse(REGISTER_PAGE.format(error=error))
-
 
 async def login_page(request: Request):
     db = request.state.db
@@ -53,7 +36,6 @@ async def login_page(request: Request):
         data = dict(parse_qsl(body))
         username = data.get('username')
         password = data.get('password')
-        print(f'data: {data}')
 
         if username is None or password is None:
             error = "Invalid username or password"
@@ -61,9 +43,7 @@ async def login_page(request: Request):
             user = await User.get_user_by_username(db, username)
             if user:
                 if user.check_password(password) is True:
-                    print(f'user: {user}')
                     await login_user(request, user)
-                    print(f'request.user: {request.user}')
                     return RedirectResponse('/', status_code=302)
                 else:
                     error = "Invalid password"

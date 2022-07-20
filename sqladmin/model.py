@@ -27,6 +27,10 @@ class User(Base, UserMixin):
     def identity(self):
         return self.id
 
+    @property
+    def display_name(self) -> str:
+        return ' '.join([self.first_name, self.last_name])
+
     def set_password(self, password: str):
         self.password = pbkdf2_sha256.hash(password)
 

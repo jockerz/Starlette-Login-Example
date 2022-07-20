@@ -53,8 +53,6 @@ app = FastAPI(
         Route('/', home_page, name='home'),
         Route('/login', login_page, methods=['GET', 'POST'], name='login'),
         Route('/logout', logout_page, name='logout'),
-        Route('/register', register_page, methods=['GET', 'POST'],
-              name='register'),
     ]
 )
 app.state.login_manager = login_manager
@@ -66,11 +64,10 @@ admin.register_model(UserAdmin)
 
 
 @app.middleware('http')
-async def set_middleware(request: Request, call_next):
+async def extensions(request: Request, call_next):
     try:
         request.state.db = LocalDBSession()
         response = await call_next(request)
-        await request.state.db.close()
     except Exception as exc:
         logger.exception(exc)
         response = PlainTextResponse(f'error: {exc}')
@@ -88,5 +85,8 @@ async def startup():
     if not await User.get_user_by_username(db, 'admin'):
         await User.create_user(
             db, 'admin', 'password', is_admin=True
+        )
+        await User.create_user(
+            db, 'user', 'password', is_admin=False
         )
     await db_engine.dispose()

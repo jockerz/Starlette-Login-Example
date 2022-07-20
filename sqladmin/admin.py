@@ -10,6 +10,7 @@ class UserAdmin(ModelAdmin, model=User):
         User.first_name, User.last_name,
         User.is_admin
     ]
+    form_excluded_columns = [User.password]
 
     def is_accessible(self, request: Request) -> bool:
         """Restrict access only by admin"""
