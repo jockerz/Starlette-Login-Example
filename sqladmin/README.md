@@ -14,5 +14,4 @@ uvicorn app:app --reload
 
 ## Login
 
- - Regular User: `user` : `password`
  - Admin User: `admin` : `password`

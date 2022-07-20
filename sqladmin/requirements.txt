@@ -1,0 +1,11 @@
+aiosqlite
+jinja2
+python-multipart
+fastapi
+passlib
+starlette
+uvicorn
+
+Starlette-Login
+sqlalchemy[asyncio]
+sqladmin
