@@ -19,7 +19,7 @@ from starlette_login.middleware import AuthenticationMiddleware
 
 from admin import UserAdmin
 from model import Base, User
-from view import register_page, login_page, logout_page, home_page
+from view import login_page, logout_page, home_page
 
 
 SECRET_KEY = 'our_webapp_secret_key'
