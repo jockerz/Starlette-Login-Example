@@ -91,7 +91,6 @@ app = Starlette(
             backend=SessionAuthBackend(login_manager),
             login_manager=login_manager,
             login_route='login',
-            secret_key=SECRET_KEY,
             excluded_dirs=['/favicon.ico']
         )
     ]
