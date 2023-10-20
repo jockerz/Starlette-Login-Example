@@ -59,7 +59,7 @@ app.state.login_manager = login_manager
 # Use `SessionMiddleware` and `AuthenticationMiddleware`
 # to secure admin pages
 admin = Admin(app, db_engine, middlewares=middleware)
-admin.register_model(UserAdmin)
+admin.add_view(UserAdmin)
 
 
 @app.middleware('http')
@@ -85,6 +85,7 @@ async def startup():
         await User.create_user(
             db, 'admin', 'password', is_admin=True
         )
+    if not await User.get_user_by_username(db, 'user'):
         await User.create_user(
             db, 'user', 'password', is_admin=False
         )

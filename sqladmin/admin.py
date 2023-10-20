@@ -1,10 +1,10 @@
-from sqladmin import ModelAdmin
+from sqladmin import ModelView
 from starlette.requests import Request
 
 from model import User
 
 
-class UserAdmin(ModelAdmin, model=User):
+class UserAdmin(ModelView, model=User):
     column_list = [
         User.id, User.username,
         User.first_name, User.last_name,

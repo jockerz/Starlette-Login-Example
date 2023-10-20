@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
@@ -33,8 +35,11 @@ async def login_page(request: Request):
         if user is None:
             error = "Invalid username"
         elif user.check_password(form['password']) is True:
-            # Login user - create user session
+            # save user's authentication session
             await login_user(request, user)
+
+            ## With remember me
+            # await login_user(request, user, True, timedelta(hours=1))
             return RedirectResponse('/', status_code=302)
         else:
             error = "Invalid username password"
@@ -90,8 +95,8 @@ app = Starlette(
             AuthenticationMiddleware,
             backend=SessionAuthBackend(login_manager),
             login_manager=login_manager,
-            login_route='login',
-            excluded_dirs=['/favicon.ico']
+            excluded_dirs=['/favicon.ico'],
+            allow_websocket=False
         )
     ]
 )
